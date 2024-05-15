@@ -21,8 +21,8 @@ def get_lists(my_table):
         response = requests.get(url, headers=headers, params=query)
         
         if response.status_code == 200:
-            for list in response.json():
-                my_table[list['id']] = {"name": list['name'], "cards": {}}
+            for t_list in response.json():
+                my_table[t_list['id']] = {"name": t_list['name'], "cards": {}}
         else:
             print(f"Error: Received status code {response.status_code}")
             return None
@@ -83,12 +83,85 @@ def add_new_card(list_id, card_name, card_desc):
         print(e)
         return None
     
+def remove_card(card_id):
+    try:
+        url = f"https://api.trello.com/1/cards/{card_id}"
+
+        query = {
+            'key': API_KEY,
+            'token': API_TOKEN
+        }
+
+        response = requests.delete(
+            url,
+            params=query
+        )
+
+        if response.status_code == 200:
+            print_colored("Card removed successfully.", 1)
+            time.sleep(2)
+        else:
+            print(f"Error: Received status code {response.status_code}")
+            return None
+    except Exception as e:
+        print(e)
+        return None
+    
+def update_card(card_id, card_name, card_desc):
+    try:
+        url = f"https://api.trello.com/1/cards/{card_id}"
+
+        headers = {
+            "Accept": "application/json"
+        }
+
+        query = {
+            'key': API_KEY,
+            'token': API_TOKEN,
+            'name': card_name,
+            'desc': card_desc
+        }
+
+        response = requests.put(url, headers=headers, params=query)
+
+        if response.status_code == 200:
+            print_colored("Card updated successfully.", 1)
+            time.sleep(2)
+        else:
+            print(f"Error: Received status code {response.status_code}")
+            return None
+    except Exception as e:
+        print(e)
+        return None
+    
 def print_table(my_table):
-    for list_id, list in my_table.items():
-        print(f"\nList: {list['name']}")
-        for card_id, card in list['cards'].items():
+    for list_id, t_list in my_table.items():
+        print(f"\nList: {t_list['name']}")
+        for card_id, card in t_list['cards'].items():
             print(f"    Card: {card['name']}")
             print_colored(f"        Desc: {card['desc']}", 2)
+            
+def make_folder():
+    if not os.path.exists('./OUTPUT'):
+        os.makedirs('./OUTPUT')
+            
+def export_to_csv(my_table):
+    try:
+        make_folder()
+        with open('./OUTPUT/table.csv', 'w', encoding="utf-8") as f:
+            f.write('List Name,Card Name,Card Description\n')
+            for list_id, t_list in my_table.items():
+                for card_id, card in t_list['cards'].items():
+                    if card['desc'] is '':
+                        desc = 'No description'
+                    else:
+                        desc = card['desc']
+                    f.write(f"{t_list['name']},{card['name']},{desc}\n")
+        print_colored("Table exported to table.csv", 1)
+        time.sleep(2)
+    except Exception as e:
+        print(e)
+        input("Press Enter to continue...")
 
 def print_colored(text: str, color_code: int, end='\n'):
     """
@@ -121,20 +194,25 @@ def clean_screen():
 def display_options():
     print_colored("\nOptions:", 4)
     print_colored("1. Add new card", 4)
-    print_colored("2. Exit", 4)
+    print_colored("2. Update a card", 4)
+    print_colored("3. Remove a card", 4)
+    print_colored("4. Exit", 4)
+    print_colored("\n\n9. Export to CSV", 4)
 
 def handle_user_input(my_table):
     print_colored("Enter the option number: ", 5, end='')
     option = input()
     if option == '1':
         print_colored("What list would you like to add the card to?", 4)
-        for list_id, list_item in my_table.items():
-            print(f"{list_id}: {list_item['name']}")
-        print_colored("Enter the list id: ", 4, end='')
-        list_id = input()
-        if list_id not in my_table:
-            print_colored("Invalid list id. Please try again.", 3)
+        list_ids = list(my_table.keys())
+        for i, list_id in enumerate(list_ids, 1):
+            print(f"{i}: {my_table[list_id]['name']}")
+        print_colored("Enter the list number: ", 4, end='')
+        list_index = int(input()) - 1
+        if list_index not in range(len(list_ids)):
+            print_colored("Invalid list number. Please try again.", 3)
         else:
+            list_id = list_ids[list_index]
             print_colored("Enter the card name: ", 4, end='')
             card_name = input()
             print_colored("Enter the card description: ", 4, end='')
@@ -142,7 +220,42 @@ def handle_user_input(my_table):
             if card_name and card_desc:
                 add_new_card(list_id, card_name, card_desc)
     elif option == '2':
+        print_colored("What card do you want to update?", 4)
+        card_map = {}
+        idx = 1
+        for list_id, t_list in my_table.items():
+            for card_id, card in t_list['cards'].items():
+                card_map[idx] = card_id
+                print(f"{idx}: {card['name']}")
+                idx += 1
+        print_colored("Enter the card number: ", 4, end='')
+        card_index = int(input())
+        card_id = card_map.get(card_index)
+        if card_id:
+            print_colored("Enter the new card name: ", 4, end='')
+            card_name = input()
+            print_colored("Enter the new card description: ", 4, end='')
+            card_desc = input()
+            if card_name and card_desc:
+                update_card(card_id, card_name, card_desc)
+    elif option == '3':
+        print_colored("What card do you want to remove?", 4)
+        card_map = {}
+        idx = 1
+        for list_id, t_list in my_table.items():
+            for card_id, card in t_list['cards'].items():
+                card_map[idx] = card_id
+                print(f"{idx}: {card['name']}")
+                idx += 1
+        print_colored("Enter the card number: ", 4, end='')
+        card_index = int(input())
+        card_id = card_map.get(card_index)
+        if card_id:
+            remove_card(card_id)
+    elif option == '4':
         return False
+    elif option == '9':
+        export_to_csv(my_table)
     else:
         print_colored("Invalid option selected. Please try again.", 3)
     return True
