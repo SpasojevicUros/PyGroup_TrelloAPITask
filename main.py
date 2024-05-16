@@ -2,7 +2,7 @@ import requests
 import json
 import time
 import os
-
+#komentar
 from config import API_KEY, API_TOKEN, TABLE_ID
 
 def get_lists(my_table):
