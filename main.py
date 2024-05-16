@@ -258,6 +258,7 @@ def handle_user_input(my_table):
         export_to_csv(my_table)
     else:
         print_colored("Invalid option selected. Please try again.", 3)
+        time.sleep(2)
     return True
 
 def get_input(my_table):
