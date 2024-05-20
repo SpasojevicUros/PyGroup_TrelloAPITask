@@ -102,7 +102,7 @@ def remove_card(card_id):
         )
 
         if response.status_code == 200:
-            print_colored("Card removed successfully.", 1)
+            print_colored(f"Card [{card_id}] - removed successfully.", 1)
             time.sleep(2)
         else:
             print(f"Error: Received status code {response.status_code}")
@@ -205,7 +205,7 @@ def display_options():
     print_colored("\nOptions:", 4)
     print_colored("1. Add new card", 4)
     print_colored("2. Update a card", 4)
-    print_colored("3. Remove a card", 4)
+    print_colored("3. Remove a card(s)", 4)
     print_colored("4. Exit", 4)
     print_colored("\n\n9. Export to CSV", 4)
 
@@ -250,7 +250,7 @@ def handle_user_input(my_table):
             if card_name and card_desc:
                 update_card(card_id, card_name, card_desc)
     elif option == '3':
-        print_colored("What card do you want to remove?", 4)
+        print_colored("What card(s) do you want to remove?", 4)
         card_map = {}
         idx = 1
         for list_id, t_list in my_table.items():
@@ -258,11 +258,18 @@ def handle_user_input(my_table):
                 card_map[idx] = card_id
                 print(f"{idx}: {card['name']}")
                 idx += 1
-        print_colored("Enter the card number: ", 4, end='')
-        card_index = int(input())
-        card_id = card_map.get(card_index)
-        if card_id:
-            remove_card(card_id)
+        print_colored("Enter the card number(s): ", 4, end='')
+        card_index = input()
+        if ',' in card_index:
+            card_index = card_index.split(',')
+            for index in card_index:
+                card_id = card_map.get(int(index))
+                if card_id:
+                    remove_card(card_id)
+        else:
+            card_id = card_map.get(int(card_index))
+            if card_id:
+                remove_card(card_id)
     elif option == '4':
         return False
     elif option == '9':

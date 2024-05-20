@@ -7,7 +7,7 @@ This script provides a command-line interface for managing a Trello board. It al
 - **Fetch Lists and Cards**: Retrieve lists and cards from your Trello board and store them in a local dictionary.
 - **Add New Card**: Add a new card to a specified list.
 - **Update Card**: Update the name and description of an existing card.
-- **Remove Card**: Remove an existing card from the board.
+- **Remove Card**: Remove an existing card (or cards) from the board.
 - **Export to CSV**: Export the board data to a CSV file.
 
 ## Requirements
