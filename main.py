@@ -2,10 +2,11 @@ import requests
 import json
 import time
 import os
-#komentar
+
 from config import API_KEY, API_TOKEN, TABLE_ID
 
 def get_lists(my_table):
+    #* Get the lists from the Trello board and store them in the table dictionary.
     try:
         url = f"https://api.trello.com/1/boards/{TABLE_ID}/lists"
         
@@ -31,6 +32,7 @@ def get_lists(my_table):
         return None
 
 def get_cards(my_table):
+    #* Get the cards from the Trello board and store them in the table dictionary.
     try:
         url = f"https://api.trello.com/1/boards/{TABLE_ID}/cards"
 
@@ -56,6 +58,7 @@ def get_cards(my_table):
         return None
 
 def add_new_card(list_id, card_name, card_desc):
+    #* Add a new card to the specified list.
     try:
         url = f"https://api.trello.com/1/cards"
 
@@ -84,6 +87,7 @@ def add_new_card(list_id, card_name, card_desc):
         return None
     
 def remove_card(card_id):
+    #* Remove the specified card from the Trello board.
     try:
         url = f"https://api.trello.com/1/cards/{card_id}"
 
@@ -108,6 +112,7 @@ def remove_card(card_id):
         return None
     
 def update_card(card_id, card_name, card_desc):
+    #* Update the specified card with the new name and description.
     try:
         url = f"https://api.trello.com/1/cards/{card_id}"
 
@@ -135,6 +140,7 @@ def update_card(card_id, card_name, card_desc):
         return None
     
 def print_table(my_table):
+    #* Print the table in a readable format.
     for list_id, t_list in my_table.items():
         print(f"\nList: {t_list['name']}")
         for card_id, card in t_list['cards'].items():
@@ -142,10 +148,12 @@ def print_table(my_table):
             print_colored(f"        Desc: {card['desc']}", 2)
             
 def make_folder():
+    #* Create the OUTPUT folder if it does not exist.
     if not os.path.exists('./OUTPUT'):
         os.makedirs('./OUTPUT')
             
 def export_to_csv(my_table):
+    #* Export the table to a CSV file.
     try:
         make_folder()
         with open('./OUTPUT/table.csv', 'w', encoding="utf-8") as f:
@@ -189,9 +197,11 @@ def print_colored(text: str, color_code: int, end='\n'):
     print(f"{color_escape_code}{text}{reset}", end=end)
 
 def clean_screen():
+    #* Clear the screen.
     os.system('cls')
 
 def display_options():
+    #* Display the options for the user.
     print_colored("\nOptions:", 4)
     print_colored("1. Add new card", 4)
     print_colored("2. Update a card", 4)
@@ -200,6 +210,7 @@ def display_options():
     print_colored("\n\n9. Export to CSV", 4)
 
 def handle_user_input(my_table):
+    #* Handle the user input and call the appropriate function.
     print_colored("Enter the option number: ", 5, end='')
     option = input()
     if option == '1':
@@ -262,6 +273,7 @@ def handle_user_input(my_table):
     return True
 
 def get_input(my_table):
+    #* Get the input from the user and display the table.
     while True:
         clean_screen()
         get_lists(my_table)
@@ -273,6 +285,7 @@ def get_input(my_table):
             break
 
 def main():
+    #* Main function.
     my_table = {}
     get_input(my_table)
 
