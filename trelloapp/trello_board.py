@@ -1,6 +1,7 @@
 import requests
 from .trello_list import TrelloList
 
+
 class TrelloBoard:
     def __init__(self, board_id, api_key, api_token):
         self.board_id = board_id

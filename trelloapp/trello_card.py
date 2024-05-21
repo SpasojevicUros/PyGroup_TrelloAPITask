@@ -1,5 +1,6 @@
 import requests
 
+
 class TrelloCard:
     def __init__(self, card_id, name, description, api_key, api_token):
         self.card_id = card_id

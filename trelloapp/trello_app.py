@@ -1,6 +1,7 @@
 import sys
 from .trello_board import TrelloBoard
 
+
 class TrelloApp:
     def __init__(self, api_key, api_token, board_id):
         self.api_key = api_key
@@ -71,7 +72,8 @@ class TrelloApp:
 
         card_to_update = card_list[card_number_to_update]
         new_name = input("Enter the new name for the card (leave blank to keep the current name): ").strip()
-        new_description = input("Enter the new description for the card (leave blank to keep the current description): ").strip()
+        new_description = input(
+            "Enter the new description for the card (leave blank to keep the current description): ").strip()
 
         new_name = new_name if new_name else None
         new_description = new_description if new_description else None

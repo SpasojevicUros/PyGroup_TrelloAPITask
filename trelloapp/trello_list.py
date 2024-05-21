@@ -1,7 +1,9 @@
 import requests
 from .trello_card import TrelloCard
 
+
 class TrelloList:
+
     def __init__(self, list_id, name, api_key, api_token):
         self.list_id = list_id
         self.name = name
@@ -24,7 +26,8 @@ class TrelloList:
             response.raise_for_status()
             if response.status_code == 200:
                 card_data = response.json()
-                new_card = TrelloCard(card_data['id'], card_data['name'], card_data['desc'], self.api_key, self.api_token)
+                new_card = TrelloCard(card_data['id'], card_data['name'], card_data['desc'], self.api_key,
+                                      self.api_token)
                 self.cards[new_card.card_id] = new_card
                 print("Card added successfully!")
                 return card_data
@@ -48,6 +51,7 @@ class TrelloList:
             response.raise_for_status()
             cards = response.json()
             for card in cards:
-                self.cards[card['id']] = TrelloCard(card['id'], card['name'], card['desc'], self.api_key, self.api_token)
+                self.cards[card['id']] = TrelloCard(card['id'], card['name'], card['desc'], self.api_key,
+                                                    self.api_token)
         except requests.exceptions.RequestException as e:
             print(f"An error occurred while fetching cards for list {self.list_id}: {e}")
