@@ -8,7 +8,6 @@ This script provides a command-line interface for managing a Trello board. It al
 - **Display Board Content**: Display the content of the board in a readable format.
 - **Display Files by Format**: Display files in the specified format from the backup directory.
 - **Upload Board Data**: Upload the local board data back to Trello, ensuring no duplicates.
-- **Print Directory Tree**: Display the directory structure similar to the `tree /f` command, excluding hidden files.
 
 ## Requirements
 
@@ -53,5 +52,4 @@ python main.py
 2. Display board content: Displays the content of the board stored in board.json.
 3. Display files by format: Prompts for a file format and displays files matching that format from the backup directory.
 4. Upload board data: Uploads the local board data from board.json to Trello.
-5. Print directory tree: Prompts for a folder path and prints the directory structure.
 6. Exit: Exits the application.
