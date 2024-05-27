@@ -1,41 +1,43 @@
-# Trello Board Manager
+# Trello Management System
 
-This script provides a command-line interface for managing a Trello board. It allows you to fetch lists and cards, add new cards, update and remove existing cards, and export the board data to a CSV file.
+This script provides a command-line interface for managing a Trello board. It allows you to download board data, display board content, display files by format, upload board data, and print the directory tree of your work folder.
 
 ## Features
 
-- **Fetch Lists and Cards**: Retrieve lists and cards from your Trello board and store them in a local dictionary.
-- **Add New Card**: Add a new card to a specified list.
-- **Update Card**: Update the name and description of an existing card.
-- **Remove Card**: Remove an existing card (or cards) from the board.
-- **Export to CSV**: Export the board data to a CSV file.
+- **Download Board Data**: Retrieve lists, cards, checklists, comments, and attachments from your Trello board and save them to a local JSON file.
+- **Display Board Content**: Display the content of the board in a readable format.
+- **Display Files by Format**: Display files in the specified format from the backup directory.
+- **Upload Board Data**: Upload the local board data back to Trello, ensuring no duplicates.
+- **Print Directory Tree**: Display the directory structure similar to the `tree /f` command, excluding hidden files.
 
 ## Requirements
 
 - Python 3.x
 - `requests` library
+- `python-dotenv` library
+- `coloredlogs` library (optional)
 
 ## Setup
 
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/yourusername/trello-board-manager.git
-    cd trello-board-manager
+    git clone https://github.com/SpasojevicUros/PyGroup_TrelloAPITask.git
+    cd PyGroup_TrelloAPITask
     ```
 
-2. Install the required library:
+2. Install the required libraries:
 
     ```bash
-    pip install requests
+    pip install requests python-dotenv coloredlogs
     ```
 
-3. Create a `config.py` file in the same directory and add your Trello API credentials:
+3. Create a `.env` file in the same directory and add your Trello API credentials:
 
-    ```python
-    API_KEY = 'your_api_key'
-    API_TOKEN = 'your_api_token'
-    TABLE_ID = 'your_table_id'
+    ```dotenv
+    API_KEY=your_api_key
+    API_TOKEN=your_api_token
+    BOARD_ID=your_board_id
     ```
 
 ## Usage
@@ -44,3 +46,12 @@ Run the script:
 
 ```bash
 python main.py
+```
+
+### Menu Options
+1. Download board data: Downloads the board data from Trello and saves it to board.json.
+2. Display board content: Displays the content of the board stored in board.json.
+3. Display files by format: Prompts for a file format and displays files matching that format from the backup directory.
+4. Upload board data: Uploads the local board data from board.json to Trello.
+5. Print directory tree: Prompts for a folder path and prints the directory structure.
+6. Exit: Exits the application.
