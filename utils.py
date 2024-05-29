@@ -64,8 +64,7 @@ def display_menu():
     print("1. Download board data")
     print("2. Display board content")
     print("3. Display Attachments")
-    print("4. Upload board data")
-    print("6. Exit")
+    print("4. Exit")
     choice = input("Enter your choice: ")
     return choice
 
