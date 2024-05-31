@@ -46,8 +46,6 @@ This project demonstrates a simple CRUD application using FastAPI and SQLAlchemy
     uvicorn main:app --reload
     ```
 
-
-
 ## Endpoints
 
 - `POST /list`: Create a new list.
@@ -60,3 +58,28 @@ This project demonstrates a simple CRUD application using FastAPI and SQLAlchemy
 
 The database will be created automatically if it does not exist when you run the application for the first time.
 
+## TODO
+
+1. **Baza podataka i modeli**
+   - [x] Kreirati SQLAlchemy modele za Trello elemente (Board, List, Card, Checklist, Comment).
+   - [ ] (Optional)Istražiti korišćenje postojećih data klasa iz prethodnog zadatka.
+   - [x] Deklarisati relacije između tabela u SQLAlchemy modelima.
+
+2. **Klasa za konekciju na bazu podataka**
+   - [ ] Kreirati klasu za upravljanje konekcijom na bazu podataka, uključujući engine i session.
+   - [ ] Implementirati CRUD operacije u okviru ove klase za jednostavniju interakciju sa bazom podataka.
+
+3. **FastAPI aplikacija**
+   - [x] Kreirati FastAPI aplikaciju.
+   - [x] Definisati endpoint-e:
+     - [x] `GET /boards/{board_id}`
+     - [x] `GET /cards/{card_id}`
+     - [x] `GET /lists/{list_id}`
+     - [x] `POST /card`
+     - [x] `POST /list`
+   - [ ] (Optional) Dodati endpoint-e za ažuriranje i brisanje elemenata.
+   - [ ] Koristiti Trello API za kreiranje elemenata na Trello prilikom kreiranja lista ili kartica.
+   - [ ] Sačuvati elemente u bazi podataka nakon uspešnog kreiranja na Trello.
+
+5. **Održavanje koda**
+   - [x] Dodati završeni kod na Git repository.
