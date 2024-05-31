@@ -22,15 +22,7 @@ This project demonstrates a simple CRUD application using FastAPI and SQLAlchemy
     git clone <repository-url>
     cd <repository-directory>
     ```
-
-2. Create a virtual environment and activate it:
-
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-
-3. Install the dependencies:
+2. Install the dependencies:
 
     ```bash
     pip install fastapi sqlalchemy uvicorn
