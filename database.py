@@ -49,5 +49,3 @@ url = URL.create(
 engine = create_engine(url)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base.metadata.create_all(bind=engine)
